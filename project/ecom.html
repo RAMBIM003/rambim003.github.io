@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce & CDC Surveillance | Rodney Toboso</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #080808; --dark-2: #111111; --dark-3: #1a1a1a;
+            --gold: #c9a84c; --gold-bright: #e8c46a;
+            --gold-dim: rgba(201,168,76,0.12);
+            --gold-border: rgba(201,168,76,0.25);
+            --cream: #f5ead6; --muted: rgba(245,234,214,0.35);
+            --faint: rgba(245,234,214,0.12);
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            background:var(--dark); color:var(--cream);
+            font-family:'DM Sans',sans-serif; font-weight:300;
+            line-height:1.7; overflow-x:hidden; cursor:none;
+        }
+
+        /* GRAIN OVERLAY */
+        body::before{
+            content:''; position:fixed; inset:0;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events:none; z-index:9999; opacity:0.45;
+        }
+
+        /* CURSOR */
+        .cursor{
+            position:fixed;width:10px;height:10px; background:var(--gold);
+            border-radius:50%; pointer-events:none; z-index:99999; transform:translate(-50%,-50%);
+        }
+        .cursor-ring{
+            position:fixed;width:36px;height:36px; border:1px solid var(--gold-border);
+            border-radius:50%; pointer-events:none; z-index:99998; transform:translate(-50%,-50%);
+            transition:width 0.3s, height 0.3s;
+        }
+
+        section{padding:120px 10%;position:relative;}
+
+        /* HERO */
+        .case-hero{
+            min-height:90vh; display:flex; flex-direction:column;
+            justify-content:center; align-items:center; text-align:center;
+            border-bottom:1px solid var(--gold-border);
+        }
+        .hero-label{
+            font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+            color:var(--gold);margin-bottom:20px;
+        }
+        .hero-title{
+            font-family:'Playfair Display',serif;
+            font-size:clamp(3rem, 8vw, 6rem);
+            font-weight:900;line-height:1.1;
+            margin-bottom:30px;color:var(--gold-bright);
+        }
+        .hero-desc{
+            font-size:1.1rem;color:var(--muted);
+            max-width:850px;margin-bottom:50px;
+        }
+
+        /* STATS RIBBON */
+        .stats-ribbon{
+            display:grid;grid-template-columns:repeat(4,1fr);
+            background:var(--dark-2);border-bottom:1px solid var(--gold-border);
+        }
+        .stat-box{padding:60px 20px;text-align:center;border-right:1px solid var(--faint);}
+        .stat-box:last-child{border-right:none;}
+        .stat-num{display:block;font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--gold);font-weight:900;}
+        .stat-label{font-size:10px;text-transform:uppercase;letter-spacing:0.25em;color:var(--muted);}
+
+        /* SECTION LABELS */
+        .section-label{
+            font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+            color:var(--gold);margin-bottom:60px;
+            display:flex;align-items:center;gap:20px;
+        }
+        .section-label::after{content:'';flex:1;height:1px;background:var(--gold-border);}
+
+        /* GRID LOGIC */
+        .module-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+        .module-card{
+            background:var(--dark-2);border:1px solid var(--faint);
+            padding:45px; transition:0.4s; position: relative; overflow: hidden;
+        }
+        .module-card:hover{border-color:var(--gold-border); transform:translateY(-5px);}
+        .module-card h3{font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--gold-bright); margin-bottom:15px; position: relative; z-index: 1;}
+        .module-card p{color:var(--muted); font-size:0.95rem; margin-bottom:20px; position: relative; z-index: 1;}
+        .module-card ul{list-style:none; position: relative; z-index: 1;}
+        .module-card li{
+            font-size:13px; color:var(--muted); margin-bottom:8px; padding-left:15px; position:relative;
+        }
+        .module-card li::before{content:''; position:absolute; left:0; top:10px; width:6px; height:1px; background:var(--gold);}
+
+        /* GALLERY */
+        .gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:25px;}
+        .gallery-item{
+            background:var(--dark-2);border:1px solid var(--faint);
+            padding:15px;text-align:center;transition:0.4s;
+        }
+        .gallery-item:hover{border-color:var(--gold-border);}
+        .gallery-item img{
+            width:100%; aspect-ratio:16/9; object-fit:cover;
+            margin-bottom:20px; filter:grayscale(10%); transition:0.5s;
+        }
+        .gallery-item:hover img{filter:grayscale(0%);}
+        .gallery-label{font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--gold);}
+
+        /* CTA */
+        .cta-box{
+            background:var(--dark-2); border:1px solid var(--gold-border);
+            padding:80px; text-align:center;
+        }
+        .cta-box h2{font-family:'Playfair Display',serif;font-size:3rem;margin-bottom:20px;}
+        .btn-group{display:flex; gap:20px; justify-content:center; margin-top:40px;}
+        .btn{
+            padding:20px 45px; text-decoration:none; font-size:12px; font-weight:700;
+            text-transform:uppercase; letter-spacing:0.2em; transition:0.4s;
+        }
+        .btn-gold{background:var(--gold); color:var(--dark);}
+        .btn-outline{border:1px solid var(--gold); color:var(--gold);}
+        .btn:hover{transform:translateY(-3px);}
+        
+        .back-link{
+            display:block; text-align:center; margin-top:60px;
+            text-decoration:none; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.3em;
+        }
+        .back-link:hover{color:var(--gold);}
+
+        @media(max-width:900px){
+            .module-grid,.gallery-grid,.stats-ribbon{grid-template-columns:1fr;}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <header class="case-hero">
+        <div class="hero-label">Data Lakehouse & BI Workspace</div>
+        <h1 class="hero-title">Ecommerce & CDC Surveillance</h1>
+        <p class="hero-desc">A production-ready analytical environment bridging the gap between high-volume retail transactions and live public health surveillance via the CDC Socrata API.</p>
+    </header>
+
+    <div class="stats-ribbon">
+        <div class="stat-box"><span class="stat-num">500k+</span><span class="stat-label">Retail Records</span></div>
+        <div class="stat-box"><span class="stat-num">Live</span><span class="stat-label">CDC API Ingestion</span></div>
+        <div class="stat-box"><span class="stat-num">OLAP</span><span class="stat-label">Optimization</span></div>
+        <div class="stat-box"><span class="stat-num">8088</span><span class="stat-label">Production Port</span></div>
+    </div>
+
+    <section>
+        <div class="section-label">The Ingestion Pipelines</div>
+        <div class="module-grid">
+            <div class="module-card">
+                <h3>Retail Insight Engine</h3>
+                <p>Analyzing customer lifecycle and geometric revenue trends for European markets.</p>
+                <ul>
+                    <li>Automated ETL Service for static local CSV datasets.</li>
+                    <li>Geographic distribution analysis across UK, France, Germany, EIRE.</li>
+                    <li>Identification of Peak Shopping Hours for window optimization.</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3>Clinical Surveillance</h3>
+                <p>Tracking pandemic momentum and demographic fatality risksLONG longitudinally from 2020-2024.</p>
+                <ul>
+                    <li>Independent Micro-service fetching JSON from CDC endpoints.</li>
+                    <li>Calculation of Weighted Average Fatality Rates.</li>
+                    <li>ICU Admission and Hospitalization severity mapping (AVG rate).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section style="background:var(--dark-2);">
+        <div class="section-label">Executive Intelligence</div>
+        <div class="module-grid">
+            <div class="module-card">
+                <h3>CDC Clinical Dashboard</h3>
+                <p>Designed for situational awareness through high-fidelity visualizations.</p>
+                <ul>
+                    <li>Demographic vulnerability split (Race, Age, Outcomes by Sex).</li>
+                    <li>Dual-axis longitudinal trend tracking for clinical severity.</li>
+                    <li>Weighted Overall Fatality KPI (e.g., 0.06%).</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3>E-Commerce Dashboard</h3>
+                <p>Market share and customer intelligence workspace.</p>
+                <ul>
+                    <li>Top 10 High-Velocity SKU identification.</li>
+                    <li>Day of Week transaction dominance analysis (Pie visualization).</li>
+                    <li>Customer Loyalty Matrix classifying high-value "Whale" segments.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-label">Visual Interface</div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="../img/econ1.png" alt="CDC Surveillance Dashboard">
+                <div class="gallery-label">Clinical Severity Suite</div>
+            </div>
+            <div class="gallery-item">
+                <img src="../img/econ2.png" alt="E-Commerce Analytics">
+                <div class="gallery-label">Retail Intelligence Dashboard</div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background:var(--dark-2);">
+        <div class="section-label">Technical Stack</div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
+            <span style="padding:12px 28px; border:1px solid var(--gold-border); font-size:11px;">Apache Superset</span>
+            <span style="padding:12px 28px; border:1px solid var(--gold-border); font-size:11px;">PostgreSQL</span>
+            <span style="padding:12px 28px; border:1px solid var(--gold-border); font-size:11px;">Python (Pandas)</span>
+            <span style="padding:12px 28px; border:1px solid var(--gold-border); font-size:11px;">SQLAlchemy</span>
+            <span style="padding:12px 28px; border:1px solid var(--gold-border); font-size:11px;">CDC Socrata API</span>
+            <span style="padding:12px 28px; border:1px solid var(--gold-border); font-size:11px;">OLAP Optimization</span>
+            <span style="padding:12px 28px; border:1px solid var(--gold-border); font-size:11px;">.env Security</span>
+        </div>
+    </section>
+
+    <section>
+        <div class="cta-box">
+            <h2 style="font-family:'Playfair Display'; font-size:3rem; margin-bottom:20px;">Orchestrate the Insights</h2>
+            <p style="color:var(--muted); margin-bottom:30px;">Review the full data engineering lifecycle and production deployment configurations on GitHub.</p>
+            <div class="btn-group">
+                <a href="https://github.com/RAMBIM003/ecommerce-insight-engine" target="_blank" class="btn btn-outline">View Repository</a>
+                <a href="../contact.html" class="btn btn-gold">Hire Rodney</a>
+            </div>
+        </div>
+        <a href="../about.html" class="back-link">← Back to Portfolio</a>
+    </section>
+
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const ring = document.querySelector('.cursor-ring');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+            ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, .module-card, .btn').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                ring.style.width = '70px'; ring.style.height = '70px';
+                ring.style.background = 'var(--gold-dim)';
+            });
+            el.addEventListener('mouseleave', () => {
+                ring.style.width = '36px'; ring.style.height = '36px';
+                ring.style.background = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>

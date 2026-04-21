@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proficiency | Rodney Toboso</title>
+    <meta name="description" content="Technical skills and expertise of Rodney Toboso — Full Stack Developer and Data Engineering Intern based in Nairobi, Kenya.">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #080808;
+            --dark-2: #111111;
+            --dark-3: #1a1a1a;
+            --gold: #c9a84c;
+            --gold-bright: #e8c46a;
+            --gold-dim: rgba(201,168,76,0.12);
+            --gold-border: rgba(201,168,76,0.25);
+            --cream: #f5ead6;
+            --muted: rgba(245,234,214,0.35);
+            --faint: rgba(245,234,214,0.12);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--dark);
+            color: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* GRAIN OVERLAY */
+        body::before {
+            content:''; position:fixed; inset:0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events:none; z-index:9999; opacity:0.45;
+        }
+
+        /* CURSOR */
+        .cursor {
+            position:fixed; width:10px; height:10px;
+            background:var(--gold); border-radius:50%;
+            pointer-events:none; z-index:99999;
+            transform:translate(-50%,-50%);
+            transition: transform 0.1s ease-out;
+        }
+        .cursor-ring {
+            position:fixed; width:36px; height:36px;
+            border:1px solid var(--gold-border);
+            border-radius:50%; pointer-events:none; z-index:99998;
+            transform:translate(-50%,-50%);
+            transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+        }
+
+        /* NAV — exact from styles.css */
+        .fixed-nav {
+            position: fixed; top: 28px; width: 100%;
+            display: flex; justify-content: center; z-index: 1000;
+        }
+        .nav-container {
+            background: rgba(8,8,8,0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 6px; border-radius: 100px;
+            display: flex; gap: 4px;
+            border: 1px solid var(--gold-border);
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--muted);
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-size: 13px; font-weight: 400;
+            letter-spacing: 0.04em;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            border: 1px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--gold-dim);
+            color: var(--gold-bright);
+            border-color: var(--gold-border);
+        }
+
+        /* SECTION */
+        section { padding: 140px 8% 80px; }
+
+        .section-label {
+            font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 60px;
+            display: flex; align-items: center; gap: 20px;
+            font-weight: 500;
+        }
+        .section-label::after { content:''; flex:1; height:1px; background:var(--gold-border); }
+
+        /* EXPERTISE GRID */
+        .expertise-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+
+        .expert-card {
+            background: var(--dark-2);
+            border: 1px solid var(--faint);
+            padding: 40px; position: relative;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
+        }
+        .expert-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+            background: var(--gold-dim); transition: width 0.5s ease;
+        }
+        .expert-card:hover::before { width: 100%; }
+        .expert-card:hover { border-color: var(--gold-border); transform: translateY(-5px); }
+
+        .expert-card h2 {
+            font-family: 'Playfair Display', serif; font-size: 1.75rem;
+            color: var(--gold-bright); margin-bottom: 28px;
+            position: relative; z-index: 1; line-height: 1.2;
+        }
+
+        .skill-group { margin-bottom: 22px; position: relative; z-index: 1; }
+        .skill-group:last-child { margin-bottom: 0; }
+
+        .skill-group h4 {
+            font-size: 0.65rem; text-transform: uppercase;
+            color: var(--gold); letter-spacing: 0.2em;
+            margin-bottom: 10px; font-weight: 500; opacity: 0.8;
+        }
+
+        .tag-container { display: flex; flex-wrap: wrap; gap: 7px; }
+        .tag {
+            font-size: 0.72rem; padding: 6px 13px; background: transparent;
+            border: 1px solid var(--faint); color: var(--muted);
+            letter-spacing: 0.04em; transition: all 0.3s ease;
+            font-weight: 400;
+        }
+        .expert-card:hover .tag { border-color: var(--gold-border); color: var(--cream); }
+        .tag:hover { background: var(--gold-dim); color: var(--gold-bright) !important; border-color: var(--gold-bright); }
+
+        /* STATS BAR */
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            background: var(--dark-2);
+            border-top: 1px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
+            margin: 48px 0 0;
+        }
+        .stat-item {
+            padding: 56px 40px; text-align: center;
+            border-right: 1px solid var(--faint);
+            transition: background 0.3s ease;
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-item:hover { background: var(--dark-3); }
+
+        .stat-val {
+            display: block; font-family: 'Playfair Display', serif;
+            font-size: 3.5rem; color: var(--gold-bright); font-weight: 900;
+            line-height: 1;
+        }
+        .stat-lab {
+            font-size: 0.65rem; text-transform: uppercase;
+            letter-spacing: 0.22em; color: var(--gold);
+            margin-top: 10px; display: block; font-weight: 500; opacity: 0.8;
+        }
+
+        @media (max-width: 1000px) {
+            .expertise-grid { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: 1fr 1fr; }
+            .stat-item { border-bottom: 1px solid var(--faint); }
+            section { padding-top: 110px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <nav class="fixed-nav">
+        <div class="nav-container">
+            <a href="work.html" class="nav-link">Work</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="pro.html" class="nav-link active">Proficiency</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <section>
+        <div class="section-label">Technical Architecture</div>
+
+        <div class="expertise-grid">
+
+            <div class="expert-card">
+                <h2>Programming &amp; Frameworks</h2>
+                <div class="skill-group">
+                    <h4>Languages</h4>
+                    <div class="tag-container">
+                        <span class="tag">Python (Flask)</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">C++</span>
+                        <span class="tag">SQL</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Frontend</h4>
+                    <div class="tag-container">
+                        <span class="tag">React.js</span>
+                        <span class="tag">HTML5 / CSS3</span>
+                        <span class="tag">Responsive Design</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Backend &amp; APIs</h4>
+                    <div class="tag-container">
+                        <span class="tag">Node.js</span>
+                        <span class="tag">WebSocket</span>
+                        <span class="tag">RESTful Integration</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expert-card">
+                <h2>Data Engineering &amp; Databases</h2>
+                <div class="skill-group">
+                    <h4>Data Pipelines</h4>
+                    <div class="tag-container">
+                        <span class="tag">dbt</span>
+                        <span class="tag">Apache NiFi</span>
+                        <span class="tag">Apache Spark</span>
+                        <span class="tag">DuckDB</span>
+                        <span class="tag">ETL / ELT Workflows</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Databases</h4>
+                    <div class="tag-container">
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Firebase</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Data Tools</h4>
+                    <div class="tag-container">
+                        <span class="tag">Data Modeling</span>
+                        <span class="tag">Schema Design</span>
+                        <span class="tag">Automated Ingestion</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Visualisation</h4>
+                    <div class="tag-container">
+                        <span class="tag">Apache Superset</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expert-card">
+                <h2>NLP &amp; Annotation</h2>
+                <div class="skill-group">
+                    <h4>Annotation &amp; Classification</h4>
+                    <div class="tag-container">
+                        <span class="tag">Sentiment Labeling</span>
+                        <span class="tag">Intent Classification</span>
+                        <span class="tag">Entity Tagging</span>
+                        <span class="tag">Text Categorization</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Dataset Management</h4>
+                    <div class="tag-container">
+                        <span class="tag">JSON / CSV / XML</span>
+                        <span class="tag">Data Cleaning</span>
+                        <span class="tag">Validation</span>
+                        <span class="tag">AI / ML Prep</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Quality Control</h4>
+                    <div class="tag-container">
+                        <span class="tag">Model Training Sets</span>
+                        <span class="tag">Quality Checks</span>
+                        <span class="tag">Accuracy Evaluation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="expert-card">
+                <h2>Tools &amp; DevOps</h2>
+                <div class="skill-group">
+                    <h4>Version Control</h4>
+                    <div class="tag-container">
+                        <span class="tag">Git</span>
+                        <span class="tag">GitHub (PR / Branching)</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Environment &amp; Automation</h4>
+                    <div class="tag-container">
+                        <span class="tag">Bash Scripting</span>
+                        <span class="tag">Linux / Unix CLI</span>
+                    </div>
+                </div>
+                <div class="skill-group">
+                    <h4>Development Tools</h4>
+                    <div class="tag-container">
+                        <span class="tag">VS Code</span>
+                        <span class="tag">Postman</span>
+                        <span class="tag">dbt Cloud</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-val">12+</span>
+            <span class="stat-lab">Projects</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-val">4+</span>
+            <span class="stat-lab">Years Exp.</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-val">100%</span>
+            <span class="stat-lab">Quality</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-val">1M+</span>
+            <span class="stat-lab">Data Rows</span>
+        </div>
+    </div>
+
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const ring = document.querySelector('.cursor-ring');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top  = e.clientY + 'px';
+            ring.style.left   = e.clientX + 'px';
+            ring.style.top    = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('.tag, .expert-card').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                ring.style.width  = '60px';
+                ring.style.height = '60px';
+            });
+            item.addEventListener('mouseleave', () => {
+                ring.style.width  = '36px';
+                ring.style.height = '36px';
+            });
+        });
+    </script>
+</body>
+</html>

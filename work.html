@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work | Rodney Toboso</title>
+    <meta name="description" content="Selected projects by Rodney Toboso — Full Stack Developer and Data Engineering Intern based in Nairobi, Kenya.">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #080808; --dark-2: #111111; --dark-3: #1a1a1a;
+            --gold: #c9a84c; --gold-bright: #e8c46a;
+            --gold-dim: rgba(201,168,76,0.12);
+            --gold-border: rgba(201,168,76,0.25);
+            --cream: #f5ead6; --muted: rgba(245,234,214,0.35);
+            --faint: rgba(245,234,214,0.12);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: var(--dark); color: var(--cream); font-family: 'DM Sans', sans-serif; cursor: none; }
+
+        /* GRAIN OVERLAY */
+        body::before {
+            content:''; position:fixed; inset:0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events:none; z-index:9999; opacity:0.45;
+        }
+
+        /* CURSOR */
+        .cursor {
+            position:fixed; width:10px; height:10px;
+            background:var(--gold); border-radius:50%;
+            pointer-events:none; z-index:99999;
+            transform:translate(-50%,-50%);
+            transition: transform 0.1s ease-out;
+        }
+        .cursor-ring {
+            position:fixed; width:36px; height:36px;
+            border:1px solid var(--gold-border); border-radius:50%;
+            pointer-events:none; z-index:99998;
+            transform:translate(-50%,-50%);
+            transition: all 0.15s ease-out;
+        }
+
+        /* NAV — exact from styles.css */
+        .fixed-nav {
+            position: fixed; top: 28px; width: 100%;
+            display: flex; justify-content: center; z-index: 1000;
+        }
+        .nav-container {
+            background: rgba(8,8,8,0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 6px; border-radius: 100px;
+            display: flex; gap: 4px;
+            border: 1px solid var(--gold-border);
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--muted);
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-size: 13px; font-weight: 400;
+            letter-spacing: 0.04em;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            border: 1px solid transparent;
+        }
+        .nav-link.active, .nav-link:hover {
+            background: var(--gold-dim);
+            color: var(--gold-bright);
+            border-color: var(--gold-border);
+        }
+
+        /* TIMELINE STRUCTURE */
+        .work-section { padding: 140px 10% 80px; position: relative; }
+
+        .section-label {
+            font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 80px;
+            display: flex; align-items: center; gap: 20px;
+            font-weight: 500;
+        }
+        .section-label::after { content:''; flex:1; height:1px; background:var(--gold-border); }
+
+        .timeline-container { position: relative; padding-left: 60px; }
+
+        .timeline-line {
+            position: absolute; left: 0; top: 0; width: 1px; height: 100%;
+            background: linear-gradient(to bottom, var(--gold), var(--dark-3));
+        }
+
+        .project-entry { position: relative; margin-bottom: 80px; }
+
+        .project-node {
+            position: absolute; left: -64px; top: 10px;
+            width: 9px; height: 9px;
+            background: var(--gold); border-radius: 50%;
+            border: 4px solid var(--dark);
+            z-index: 2; box-shadow: 0 0 10px var(--gold-dim);
+        }
+
+        .project-year {
+            font-size: 0.65rem; letter-spacing: 0.22em;
+            color: var(--gold); font-weight: 500;
+            margin-bottom: 14px; display: block;
+            text-transform: uppercase; opacity: 0.8;
+        }
+
+        /* PROJECT CARDS */
+        .project-card {
+            background: var(--dark-2); border: 1px solid var(--faint);
+            padding: 48px 50px; text-decoration: none; display: block;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative; overflow: hidden;
+        }
+        .project-card:hover {
+            border-color: var(--gold-border); transform: translateX(15px);
+            background: var(--dark-3);
+        }
+
+        .project-title {
+            font-family: 'Playfair Display', serif; font-size: 3rem;
+            color: var(--gold-bright); margin-bottom: 20px; line-height: 1.1;
+        }
+
+        .project-desc {
+            color: var(--muted); font-size: 1rem; line-height: 1.8;
+            max-width: 60ch; margin-bottom: 32px;
+        }
+
+        .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+        .tag {
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em;
+            padding: 7px 16px; border: 1px solid var(--gold-border);
+            color: var(--gold); font-weight: 500;
+        }
+
+        .view-link {
+            display: inline-flex; align-items: center; gap: 14px;
+            color: var(--gold-bright); font-size: 0.72rem; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 0.2em;
+        }
+        .view-link::after { content: '→'; font-size: 16px; transition: transform 0.3s; }
+        .project-card:hover .view-link::after { transform: translateX(10px); }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <nav class="fixed-nav">
+        <div class="nav-container">
+            <a href="work.html" class="nav-link active">Work</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="pro.html" class="nav-link">Proficiency</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <section class="work-section">
+        <div class="section-label">Featured Work</div>
+
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="project-entry">
+                <div class="project-node"></div>
+                <span class="project-year">2026</span>
+                <a href="project/mindmate.html" class="project-card">
+                    <h2 class="project-title">MindMate</h2>
+                    <p class="project-desc">An all-in-one educational platform built with Flutter that connects students with tutors, supports course management, and fosters collaborative learning through integrated forums and messaging.</p>
+                    <div class="tag-row">
+                        <span class="tag">Flutter</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">Dart</span>
+                    </div>
+                    <span class="view-link">Explore Case Study</span>
+                </a>
+            </div>
+
+            <div class="project-entry">
+                <div class="project-node"></div>
+                <span class="project-year">2026</span>
+                <a href="project/pathwise.html" class="project-card">
+                    <h2 class="project-title">PathWise AI</h2>
+                    <p class="project-desc">An AI-powered adaptive learning platform delivering personalised career recommendations from student performance data and interest-based metrics — with user-focused dashboards for outcomes mapping.</p>
+                    <div class="tag-row">
+                        <span class="tag">Python</span>
+                        <span class="tag">Scikit-Learn</span>
+                        <span class="tag">React</span>
+                    </div>
+                    <span class="view-link">Explore Case Study</span>
+                </a>
+            </div>
+
+            <div class="project-entry">
+                <div class="project-node"></div>
+                <span class="project-year">2026</span>
+                <a href="project/ecom.html" class="project-card">
+                    <h2 class="project-title">E-commerce <br>Data Engine</h2>
+                    <p class="project-desc">A centralised Data Lakehouse and BI workspace unifying independent data streams — integrating high-volume retail transactions with real-time public health surveillance feeds for scalable reporting.</p>
+                    <div class="tag-row">
+                        <span class="tag">Apache Spark</span>
+                        <span class="tag">dbt</span>
+                        <span class="tag">Apache Iceberg</span>
+                        <span class="tag">Superset</span>
+                    </div>
+                    <span class="view-link">Explore Case Study</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const ring = document.querySelector('.cursor-ring');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top  = e.clientY + 'px';
+            ring.style.left   = e.clientX + 'px';
+            ring.style.top    = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                ring.style.width  = '80px';
+                ring.style.height = '80px';
+                ring.style.background = 'rgba(201,168,76,0.05)';
+            });
+            card.addEventListener('mouseleave', () => {
+                ring.style.width  = '36px';
+                ring.style.height = '36px';
+                ring.style.background = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rodney Toboso | Full Stack Developer — Nairobi</title>
+  <meta name="description" content="Full Stack Developer and Data Engineering Intern based in Nairobi, Kenya. Building elegant, high-performance digital products at the intersection of engineering and design.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+
+    #character-viewer {
+      width: 100% !important;
+      height: 750px !important;
+      display: block;
+    }
+    #character-viewer canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+  
+    .hero-eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-bottom: 1rem;
+    }
+
+   
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      opacity: 0.72;
+      max-width: 38ch;
+    }
+
+    
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-top: 2.5rem;
+      padding: 0.45rem 1rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 2rem;
+      backdrop-filter: blur(6px);
+    }
+
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
+      animation: pulse-dot 2.4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
+      50%       { box-shadow: 0 0 0 5px rgba(74,222,128,0); }
+    }
+
+    
+    .skill-item {
+      position: relative;
+    }
+
+    
+    .skill-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      opacity: 0.45;
+    }
+
+     
+    .section-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 3rem;
+    }
+
+   
+    .collab-bg {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      opacity: 0.04;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    
+    .brand-sub {
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      opacity: 0.45;
+      margin-top: 0.4rem;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    
+    .social-pill {
+      font-size: 0.7rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: border-color 0.2s ease, opacity 0.2s ease;
+      opacity: 0.55;
+    }
+    .social-pill:hover {
+      opacity: 1;
+      border-color: rgba(255,255,255,0.35);
+    }
+
+   
+    .copy {
+      font-size: 0.72rem;
+      opacity: 0.3;
+      margin-top: 2rem;
+      letter-spacing: 0.04em;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    
+    .footer-col h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.35;
+      margin-bottom: 1.25rem;
+    }
+
+   
+    .footer-col ul li a {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      opacity: 0.65;
+      transition: opacity 0.2s ease;
+      text-decoration: none;
+    }
+    .footer-col ul li a:hover {
+      opacity: 1;
+    }
+
+
+    .collab-statement {
+      padding: 80px 0 72px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 28px;
+      position: relative;
+    }
+    .collab-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.8;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .collab-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .collab-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      color: var(--cream);
+    }
+    .collab-heading em {
+      color: var(--gold-bright);
+      font-style: italic;
+    }
+    .collab-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--gold);
+      border: 1px solid var(--gold-border);
+      padding: 13px 26px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+    }
+    .collab-cta:hover {
+      background: var(--gold-dim);
+      color: var(--gold-bright);
+      border-color: var(--gold);
+    }
+
+  
+    .social-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .social-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      padding: 9px 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+      color: var(--muted);
+      text-decoration: none;
+      width: fit-content;
+    }
+    .social-pill:hover {
+      color: var(--gold-bright);
+      border-color: var(--gold-border);
+      background: var(--gold-dim);
+    }
+    .social-pill svg {
+      flex-shrink: 0;
+      color: var(--gold);
+      transition: color 0.25s ease;
+    }
+    .social-pill:hover svg {
+      color: var(--gold-bright);
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav class="fixed-nav">
+  <div class="nav-container">
+    <a href="work.html" class="nav-link">Work</a>
+    <a href="about.html" class="nav-link active">About</a>
+    <a href="pro.html" class="nav-link">Proficiency</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left reveal-left">
+    <div class="photo-frame" style="background: #000; width: 100%; height: 750px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+      <div id="character-viewer"></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+   
+    <p class="hero-eyebrow reveal">Full Stack Developer · Nairobi, Kenya</p>
+
+    <h1 class="hero-title reveal">
+      I'm<br><span class="name">Rodney.</span>
+    </h1>
+
+
+    <p class="hero-desc reveal">
+      I build high-performance digital products — clean code on the back end, 
+      thoughtful interfaces on the front. Currently deepening expertise in 
+      data engineering and cloud architecture.
+    </p>
+
+    <div class="hero-status reveal">
+      <span class="status-dot"></span>
+      Open to new projects &amp; opportunities
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<section class="skills-section">
+  <p class="section-label reveal">Core Disciplines</p>
+
+  <div class="skills-stack">
+    <div class="skill-item reveal">
+      <span class="skill-num">01</span>
+      <span class="skill-name">Full Stack Development</span>
+      <span class="skill-tag">Web</span>
+      <span class="skill-arrow">↗</span>
+    </div>
+
+    <div class="skill-item reveal">
+      <span class="skill-num">02</span>
+      <span class="skill-name">Python &amp; Data Engineering</span>
+      <span class="skill-tag">Data</span>
+      <span class="skill-arrow">↗</span>
+    </div>
+
+    <div class="skill-item reveal">
+      <span class="skill-num">03</span>
+      <span class="skill-name">Next.js &amp; React</span>
+      <span class="skill-tag">Frontend</span>
+      <span class="skill-arrow">↗</span>
+    </div>
+
+    <div class="skill-item reveal">
+      <span class="skill-num">04</span>
+      <span class="skill-name">Cloud Architecture</span>
+      <span class="skill-tag">Infrastructure</span>
+      <span class="skill-arrow">↗</span>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section">
+
+ 
+  <div class="collab-statement">
+    <p class="collab-eyebrow">Open to Work</p>
+    <h2 class="collab-heading">Let's build something<br><em>worth remembering.</em></h2>
+    <a href="contact.html" class="collab-cta">Start a conversation &nbsp;↗</a>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-name"></div>
+      <div class="brand-sub">Full Stack Developer &nbsp;·&nbsp; Data Engineering </div>
+
+     
+      <div class="social-row">
+        <a href="mailto:tobosorodney@gmail.com" class="social-pill" title="Email">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+          tobosorodney@gmail.com
+        </a>
+        <a href="https://www.instagram.com/rxmbim._?igsh=b3hwMDcydjF6c2Jr" target="_blank" class="social-pill" title="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram
+        </a>
+        <a href="https://wa.me/254722596733" target="_blank" class="social-pill" title="WhatsApp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          +254 722 596 733
+        </a>
+      </div>
+
+      <p class="copy">© 2026 Rodney Toboso · </p>
+    </div>
+
+    <div class="footer-col">
+      <h3>Elsewhere</h3>
+      <ul>
+        <li><a href="https://github.com/RAMBIM003" target="_blank">Github</a></li>
+        <li><a href="https://www.linkedin.com/in/rodney-toboso-61a438254" target="_blank">LinkedIn</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <ul>
+        <li><a href="contact.html">Send a message</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script src="js/script.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/spritespin@4.1.0/release/spritespin.js"></script>
+
+<script>
+  $(function() {
+    var containerWidth  = $("#character-viewer").width();
+    var containerHeight = Math.round(containerWidth * (1920 / 1080));
+
+    $("#character-viewer").spritespin({
+      source: [
+        "img/character-rotate/person_0.png",
+        "img/character-rotate/person_9.png",
+        "img/character-rotate/person_18.png",
+        "img/character-rotate/person_27.png"
+      ],
+      width:  containerWidth,
+      height: containerHeight,
+      frames: 4,
+      plugins: ['360', 'drag'],
+      animate: true,
+      frameTime: 1200,
+      loop: true
+    });
+  });
+</script>
+
+</body>
+</html>

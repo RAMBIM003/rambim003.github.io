@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindMate Case Study | Rodney Toboso</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #080808;
+            --dark-2: #111111;
+            --dark-3: #1a1a1a;
+            --gold: #c9a84c;
+            --gold-bright: #e8c46a;
+            --gold-dim: rgba(201,168,76,0.12);
+            --gold-border: rgba(201,168,76,0.25);
+            --cream: #f5ead6;
+            --muted: rgba(245,234,214,0.35);
+            --faint: rgba(245,234,214,0.12);
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            background:var(--dark);
+            color:var(--cream);
+            font-family:'DM Sans',sans-serif;
+            font-weight:300;
+            line-height:1.7;
+            overflow-x:hidden;
+            cursor:none;
+        }
+
+        /* GRAIN OVERLAY */
+        body::before{
+            content:''; position:fixed; inset:0;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events:none; z-index:9999; opacity:0.45;
+        }
+
+        /* CURSOR */
+        .cursor{
+            position:fixed;width:10px;height:10px;
+            background:var(--gold);border-radius:50%;
+            pointer-events:none;z-index:99999;
+            transform:translate(-50%,-50%);
+            transition:transform 0.1s ease-out;
+        }
+        .cursor-ring{
+            position:fixed;width:36px;height:36px;
+            border:1px solid var(--gold-border);
+            border-radius:50%;pointer-events:none;z-index:99998;
+            transform:translate(-50%,-50%);
+            transition:width 0.3s, height 0.3s;
+        }
+
+        section{padding:120px 10%;position:relative;}
+
+        /* HERO */
+        .case-hero{
+            min-height:90vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            text-align:center;
+            border-bottom:1px solid var(--gold-border);
+        }
+        .hero-label{
+            font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+            color:var(--gold);margin-bottom:20px;
+        }
+        .hero-title{
+            font-family:'Playfair Display',serif;
+            font-size:clamp(3.5rem, 10vw, 7rem);
+            font-weight:900;line-height:1.1;
+            margin-bottom:30px;color:var(--gold-bright);
+        }
+        .hero-desc{
+            font-size:1.1rem;color:var(--muted);
+            max-width:700px;margin-bottom:50px;
+        }
+
+        /* CAPABILITIES RIBBON */
+        .stats-ribbon{
+            display:grid;grid-template-columns:repeat(4,1fr);
+            background:var(--dark-2);border-bottom:1px solid var(--gold-border);
+        }
+        .stat-box{padding:60px 20px;text-align:center;border-right:1px solid var(--faint);}
+        .stat-box:last-child{border-right:none;}
+        .stat-num{display:block;font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--gold);font-weight:900;}
+        .stat-label{font-size:10px;text-transform:uppercase;letter-spacing:0.25em;color:var(--muted);}
+
+        /* MODULE GRID */
+        .section-label{
+            font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+            color:var(--gold);margin-bottom:60px;
+            display:flex;align-items:center;gap:20px;
+        }
+        .section-label::after{content:'';flex:1;height:1px;background:var(--gold-border);}
+
+        .module-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+        .module-card{
+            background:var(--dark-2);border:1px solid var(--faint);
+            padding:45px;transition:all 0.4s cubic-bezier(0.23,1,0.32,1);
+            position:relative;overflow:hidden;
+        }
+        .module-card::before{
+            content:'';position:absolute;left:0;top:0;bottom:0;width:0;
+            background:var(--gold-dim);transition:width 0.5s ease;
+        }
+        .module-card:hover::before{width:100%;}
+        .module-card:hover{border-color:var(--gold-border);transform:translateY(-5px);}
+        .module-card h3{
+            font-family:'Playfair Display',serif;font-size:2rem;
+            color:var(--gold-bright);margin-bottom:20px;position:relative;z-index:1;
+        }
+        .module-card p{color:var(--muted);font-size:0.95rem;position:relative;z-index:1;margin-bottom:20px;}
+        .module-card ul{list-style:none;position:relative;z-index:1;}
+        .module-card li{
+            font-size:13px;color:var(--muted);margin-bottom:8px;
+            padding-left:15px;position:relative;
+        }
+        .module-card li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:1px;background:var(--gold);}
+
+        /* GALLERY */
+        .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;}
+        .gallery-item{
+            background:var(--dark-2);border:1px solid var(--faint);
+            padding:15px;text-align:center;transition:0.4s;
+        }
+        .gallery-item:hover{border-color:var(--gold-border);}
+        .gallery-item img{
+            width:100%;aspect-ratio:9/16;object-fit:cover;
+            margin-bottom:20px;filter:grayscale(10%);transition:0.5s;
+        }
+        .gallery-item:hover img{filter:grayscale(0%);}
+        .gallery-label{font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--gold);}
+
+        /* TECH STACK */
+        .tech-container{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+        .tech-tag{
+            padding:12px 28px;border:1px solid var(--gold-border);
+            font-size:12px;color:var(--gold-bright);text-transform:uppercase;
+            letter-spacing:0.1em;transition:0.3s;
+        }
+        .tech-tag:hover{background:var(--gold-dim);}
+
+        /* CTA */
+        .cta-box{
+            background:var(--dark-2);border:1px solid var(--gold-border);
+            padding:80px;text-align:center;
+        }
+        .cta-box h2{font-family:'Playfair Display',serif;font-size:3rem;margin-bottom:20px;}
+        .btn-group{display:flex;gap:20px;justify-content:center;margin-top:40px;}
+        .btn{
+            padding:20px 45px;text-decoration:none;font-size:12px;
+            font-weight:700;text-transform:uppercase;letter-spacing:0.2em;
+            transition:0.4s;
+        }
+        .btn-gold{background:var(--gold);color:var(--dark);}
+        .btn-outline{border:1px solid var(--gold);color:var(--gold);}
+        .btn:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,0.4);}
+
+        .back-link{
+            display:block;text-align:center;margin-top:60px;
+            text-decoration:none;color:var(--muted);font-size:11px;
+            text-transform:uppercase;letter-spacing:0.3em;transition:0.3s;
+        }
+        .back-link:hover{color:var(--gold);}
+
+        @media(max-width:900px){
+            .module-grid,.gallery-grid,.stats-ribbon{grid-template-columns:1fr;}
+            .case-hero{padding:120px 40px;}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <header class="case-hero">
+        <div class="hero-label">Mobile Ecosystem</div>
+        <h1 class="hero-title">MindMate</h1>
+        <p class="hero-desc">An all-in-one educational platform engineered with Flutter that unifies students and tutors through secure authentication, real-time collaboration, and modular course management.</p>
+    </header>
+
+    <div class="stats-ribbon">
+        <div class="stat-box"><span class="stat-num">7</span><span class="stat-label">Feature Areas</span></div>
+        <div class="stat-box"><span class="stat-num">15+</span><span class="stat-label">UI Screens</span></div>
+        <div class="stat-box"><span class="stat-num">Cross</span><span class="stat-label">Platform</span></div>
+        <div class="stat-box"><span class="stat-num">Real</span><span class="stat-label">Time Sync</span></div>
+    </div>
+
+    <section>
+        <div class="section-label">Core Modules</div>
+        <div class="module-grid">
+            <div class="module-card">
+                <h3>Authentication</h3>
+                <p>Secure identity management leveraging modern provider patterns.</p>
+                <ul>
+                    <li>Google Sign-In Integration</li>
+                    <li>Firebase Auth & Session Management</li>
+                    <li>Personalized Profiles & Enrollment Tracking</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3>Course Management</h3>
+                <p>Complete academic lifecycle from discovery to progress tracking.</p>
+                <ul>
+                    <li>Module-based Content Delivery</li>
+                    <li>Integrated Progress Monitoring</li>
+                    <li>Dynamic Search & Discovery Engine</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3>Tutor System</h3>
+                <p>A marketplace for expertise with built-in scheduling logic.</p>
+                <ul>
+                    <li>Verified Tutor Directory</li>
+                    <li>Seamless Appointment Booking</li>
+                    <li>Automated Session Management</li>
+                </ul>
+            </div>
+            <div class="module-card">
+                <h3>Collaboration</h3>
+                <p>Fostering academic growth through real-time interaction.</p>
+                <ul>
+                    <li>Discussion Forums & Knowledge Sharing</li>
+                    <li>Instant Peer-to-Peer Messaging</li>
+                    <li>Cloud Messaging Notifications</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section style="background:var(--dark-2);">
+        <div class="section-label">Interface Design</div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="../img/mind1.jpg" alt="Onboarding">
+                <div class="gallery-label">Landing Page</div>
+            </div>
+            <div class="gallery-item">
+                <img src="../img/mind2.jpg" alt="Curriculum">
+                <div class="gallery-label">Course List</div>
+            </div>
+            <div class="gallery-item">
+                <img src="../img/mind3.jpg" alt="Tutor Finder">
+                <div class="gallery-label">Tutor Directory</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-label">Technical Stack</div>
+        <div class="tech-container">
+            <span class="tech-tag">Flutter</span>
+            <span class="tech-tag">Dart</span>
+            <span class="tech-tag">Firebase Core</span>
+            <span class="tech-tag">Cloud Firestore</span>
+            <span class="tech-tag">Material Design 3</span>
+            <span class="tech-tag">Provider</span>
+            <span class="tech-tag">RxDart</span>
+        </div>
+    </section>
+
+    <section>
+        <div class="cta-box">
+            <h2>Interested in the Code?</h2>
+            <p style="color:var(--muted); margin-bottom:30px;">Explore the modular architecture and clean codebase on GitHub.</p>
+            <div class="btn-group">
+                <a href="https://github.com/braeson-nyahera/Mindmate" target="_blank" class="btn btn-outline">View Repository</a>
+               <a href="../contact.html" class="btn btn-gold">Hire Rodney</a>
+            </div>
+        </div>
+<a href="../about.html" class="back-link">← Back to Portfolio</a>
+    </section>
+
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const ring = document.querySelector('.cursor-ring');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            ring.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        });
+
+        document.querySelectorAll('a, .module-card, .gallery-item').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                ring.style.width = '70px'; ring.style.height = '70px';
+                ring.style.background = 'var(--gold-dim)';
+            });
+            el.addEventListener('mouseleave', () => {
+                ring.style.width = '36px'; ring.style.height = '36px';
+                ring.style.background = 'transparent';
+            });
+        });
+    </script>
+</body>
+</html>
